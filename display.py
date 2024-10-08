@@ -5,9 +5,14 @@ def board(board):
         print('|-------------' * length + '|')
         for i in range(3):
             for j in range(length):
-                print('|', end = '')
-                spaces = 13 - len(row[j][i])
-                print(' ' * (spaces//2) + row[j][i] + ' ' * (spaces//2) + ' ' * (spaces%2), end = '')
+                if i == 1:
+                    print('|', end = '')
+                    spaces = 13 - len(row[j][i]['name'])
+                    print(' ' * (spaces//2) + row[j][i]['name'] + ' ' * (spaces//2) + ' ' * (spaces%2), end = '')
+                else:
+                    print('|', end = '')
+                    spaces = 13 - len(row[j][i])
+                    print(' ' * (spaces//2) + row[j][i] + ' ' * (spaces//2) + ' ' * (spaces%2), end = '')
             print('|')
 
 
