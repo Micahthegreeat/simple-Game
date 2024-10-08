@@ -13,14 +13,8 @@ defaultPiece = ['', {'name': ''}, '', '']
 board = {}
 for x in range(2,13):
     board[f"board{x}"] = [[defaultPiece for j in range(x) ] for i in range(x)]
-#dictionary with current machines avalible
-machines = {
-    'outlet' : {'name' : 'outlet', 'cost' : 50},
-    'producer' : {'name' : 'producer', 'type' : 'iron', 'cost' : 25},
-    'seller' : {'name' : 'seller', 'cost' : 25},
-    'roller' : {'name' : 'roller', 'cost' : 25}
+#dictionary with mahines 
 
-}
 
     
 
@@ -72,8 +66,40 @@ def readMachines(machines):
 
 
 #displays a shop
-def shop():
-    pass
+def shop(machines, money):
+    print('These are what you can buy:')
+    list = []
+    for item in parts.machine():
+        if not(item in machines):
+            print(item, end = '')
+            print('        cost:', parts.part(item)['cost'])
+            list.append(item)
+    print('\nYou can [l]eave the shop, [b]uy the machine, or [a]sk what the machine does')
+    while True:
+        key = input('> ').strip().lower().split()
+        if len(key) == 0: continue
+        if key[0] == 'l':
+            return machines, money
+            break
+        elif key[0] == 'a':
+            a = input('what machine? ')
+            parts.machinedescription(a)
+        elif key[0] == 'b':
+            a = input('what machine? ')
+            if a in list and parts.part(a)['cost'] < money:
+                machines[a] = parts.part(a)
+                money -= parts.part(a)['cost']
+                print(f'you have {money} money left')
+            else:print('not an option')
+        elif len(key[0]) > 1:
+            print('you are still in the shop')
+            print('You can [l]eave the shop, [b]uy the machine, or [a]sk what the machine does')
+
+def check():
+    for item in parts.machine():
+        if len(item) > 12:
+            print(item, 'is to long of a name fix it')
+            sys.exit    
 
 #clears the board and reinburses the player the money they spent
 def clear(board, money):
@@ -86,6 +112,8 @@ def clear(board, money):
 
 
 def main():
+    # checks that all hardcoded values are ok inputs
+    check()
     
     
     #starting the actual game loop
@@ -102,6 +130,13 @@ def main():
             #defining starting variables
             grid_size = 2
             money = 125
+            machines = {
+                'outlet' : parts.part('outlet'),
+                'producer' : parts.part('producer'),
+                'seller' : parts.part('seller'),
+                'roller' : parts.part('roller')
+
+            }
             while True:
                 if grid_size >= 13:
                     print('YOU WIN CONGRATS')
@@ -114,14 +149,14 @@ def main():
                         readOptions()
                     elif value[0] == 'help':
                         parts.machinedescription(value[1])
-                    elif value[0] == 'shop':
-                        shop()
+                    elif value[0] == 'shop' or value[0] == 'store':
+                        machines, money = shop(machines, money)
                     elif value[0] == 'build':
                         pass
                     elif value[0] == 'clear':
                         money, board[f'board{grid_size}'] = clear(board[f'board{grid_size}'], money)
                     elif value[0] == 'quit':
-                        break
+                        sys.exit()
                     elif value[0] == 'sell':
                         pass
                     elif value[0] == 'upgrade':

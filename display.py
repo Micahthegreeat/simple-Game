@@ -7,8 +7,8 @@ def board(board):
             for j in range(length):
                 if i == 1:
                     print('|', end = '')
-                    spaces = 13 - len(row[j][i]['name'])
-                    print(' ' * (spaces//2) + row[j][i]['name'] + ' ' * (spaces//2) + ' ' * (spaces%2), end = '')
+                    spaces = 13 - len(row[j][i]['name']+ row[j][3])
+                    print(' ' * (spaces//2) + row[j][i]['name']+ row[j][3] + ' ' * (spaces//2) + ' ' * (spaces%2), end = '')
                 else:
                     print('|', end = '')
                     spaces = 13 - len(row[j][i])
