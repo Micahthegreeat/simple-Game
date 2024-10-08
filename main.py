@@ -9,9 +9,10 @@ import parts
 import sys
 
 #dictionary with every board size
+defaultPiece = ['', {'name': ''}, '', '']
 board = {}
 for x in range(2,13):
-    board[f"board{x}"] = [[['', {'name': ''}, '', ''] for j in range(x) ] for i in range(x)]
+    board[f"board{x}"] = [[defaultPiece for j in range(x) ] for i in range(x)]
 #dictionary with current machines avalible
 machines = {
     'outlet' : {'name' : 'outlet', 'cost' : 50},
@@ -61,6 +62,7 @@ You can press enter instead of typing things to pass time
 you type quit to leave
 clear to start the board over
 help [machine] will tell u what it does
+buy will buy the next level
 ''')
 
 def readMachines(machines):
@@ -79,7 +81,7 @@ def clear(board, money):
         for k, machine in enumerate(i):
             if 'cost' in machine[1]:
                 money += machine[1]['cost']
-            board[j][k] = ['', {'name': ''}, '', '']
+            board[j][k] = defaultPiece
     return money, board
 
 
@@ -124,7 +126,8 @@ def main():
                         pass
                     elif value[0] == 'upgrade':
                         pass
-                      
+                    elif value[0] == 'buy':
+                        pass
                     elif value[0] == 'items':
                         readMachines(machines)
                     else:
